@@ -6,7 +6,8 @@ const sessionRoutes = require("./routes/sessionRoutes");
 
 const app = express();
 
-const allowedOrigin = (process.env.CLIENT_URL || "").trim();
+const normalizeOrigin = (value) => value.replace(/\/+$/, "").trim();
+const allowedOrigin = normalizeOrigin(process.env.CLIENT_URL || "");
 
 app.use(
     cors({
@@ -15,7 +16,7 @@ app.use(
                 return callback(null, true);
             }
 
-            if (origin === allowedOrigin) {
+            if (normalizeOrigin(origin) === allowedOrigin) {
                 return callback(null, true);
             }
 
