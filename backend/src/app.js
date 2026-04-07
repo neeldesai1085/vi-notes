@@ -6,19 +6,16 @@ const sessionRoutes = require("./routes/sessionRoutes");
 
 const app = express();
 
-const allowedOrigins = (process.env.CLIENT_URLS || process.env.CLIENT_URL || "")
-    .split(",")
-    .map((value) => value.trim())
-    .filter(Boolean);
+const allowedOrigin = (process.env.CLIENT_URL || "").trim();
 
 app.use(
     cors({
         origin(origin, callback) {
-            if (!origin || allowedOrigins.length === 0) {
+            if (!origin || !allowedOrigin) {
                 return callback(null, true);
             }
 
-            if (allowedOrigins.includes(origin)) {
+            if (origin === allowedOrigin) {
                 return callback(null, true);
             }
 
